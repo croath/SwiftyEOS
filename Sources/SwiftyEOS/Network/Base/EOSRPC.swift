@@ -80,9 +80,11 @@ func customDateFormatter(_ decoder: Decoder) throws -> Date {
                 let decoder = self.decoder
                 guard let responseObject = try? decoder.decode(T.self, from: data) else {
                     guard let errorResponse = try? decoder.decode(RPCErrorResponse.self, from: data) else {
+                        print("request:\n\(request) \nerror response:\n\(String(data: data, encoding: .utf8) ?? "no data")")
                         completion(nil, NSError(domain: errorDomain, code: 1, userInfo: [NSLocalizedDescriptionKey: "Decoding error \(String(describing: error))"]))
                         return
                     }
+                    print("request:\n\(request) \nerror response:\n\(String(data: data, encoding: .utf8) ?? "no data")")
                     completion(nil, NSError(domain: errorDomain, code: RPCErrorResponse.ErrorCode, userInfo: [RPCErrorResponse.ErrorKey: errorResponse]))
                     return
                 }
